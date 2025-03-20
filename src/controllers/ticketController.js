@@ -39,15 +39,16 @@ const createIngresso = async (req, res) => {
 const updateIngresso = async (req, res) => {
     try {
         const { evento, local, data_evento, categoria, preco, quantidade_disponivel } = req.body;
-        const updatedIngresso = await  ticketModel.updateIngresso(req.params.id, evento, local, data_evento, categoria, preco, quantidade_disponivel);
-        if (!updatedIngresso) {
-            return res.status(404).json({ message: "Ingresso(s) não encontrado." });
+        const { id } = req.params;
+        const updatedIngresso = await ticketModel.updateIngresso(id, evento, local, data_evento, categoria, preco, quantidade_disponivel);
+        if (updatedIngresso.error) {
+            return res.status(404).json(updatedIngresso);
         }
         res.json(updatedIngresso);
     } catch (error) {
-        res.status(500).json({ message: "Erro ao atualizar ingresso(s)." });
+        res.status(500).json({ message: "Erro ao atualizar ingresso." });
     }
-};
+}
 
 
 const deleteIngresso = async (req, res) => {
