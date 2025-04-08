@@ -1,8 +1,15 @@
 const pool = require("../config/database");
 
 const getIngressos = async () => {
-    const result = await pool.query("SELECT * FROM ingressos");
-    return result.rows;
+    try {
+        console.log('Tentando buscar ingressos...');
+        const result = await pool.query('SELECT * FROM ingressos');
+        console.log('Ingressos encontrados:', result);
+        return result.rows;
+    } catch (error) {
+        console.error('Erro ao buscar ingressos:', error.message);
+        throw error;
+    }
 };
 
 
